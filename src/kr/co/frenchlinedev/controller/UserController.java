@@ -8,24 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
 	
+	private static final String VIEW_PATH = "user/";
+	
 	@GetMapping("/login")
 	public String login() {
-		return "user/login";
+		return VIEW_PATH + "login";
 	}
 	
 	@GetMapping("/join")
 	public String join() {
-		return "user/join";
+		return VIEW_PATH + "join";
 	}
 	
 	@GetMapping("/modify")
 	public String modify() {
-		return "user/modify";
+		return VIEW_PATH + "modify";
 	}
 
 	@GetMapping("/logout")
 	public String logout() {
-		return "user/logout";
+		return VIEW_PATH + "logout";
 	}
 	
 

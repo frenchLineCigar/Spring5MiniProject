@@ -8,10 +8,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/board")
 public class BoardController {
 
-	private static final String BOARD_VIEW_PATH = "board/";
+	private static final String VIEW_PATH = "board/";
 	
 	@GetMapping("/main")
 	public String main() {
-		return BOARD_VIEW_PATH + "main";
+		return VIEW_PATH + "main";
+	} 
+	
+	@GetMapping("/read")
+	public String read() {
+		return VIEW_PATH + "read";
+	}
+	
+	@GetMapping("/write")
+	public String write() {
+		return VIEW_PATH + "write";
+	}
+	
+	@GetMapping("/modify")
+	public String modify() {
+		return VIEW_PATH + "modify";
+	}
+	
+	@GetMapping("/delete")
+	public String delete() {
+		return VIEW_PATH + "delete";
 	}
 }
