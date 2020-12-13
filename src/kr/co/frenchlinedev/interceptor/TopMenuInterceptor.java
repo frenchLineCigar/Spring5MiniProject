@@ -15,7 +15,6 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 	private TopMenuService topMenuService;
 	
 	public TopMenuInterceptor(TopMenuService topMenuService) {
-		super();
 		this.topMenuService = topMenuService;
 	}
 
