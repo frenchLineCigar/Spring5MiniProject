@@ -1,8 +1,18 @@
 package kr.co.frenchlinedev.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import kr.co.frenchlinedev.beans.UserBean;
+import kr.co.frenchlinedev.validator.UserValidator;
 
 @Controller
 @RequestMapping("/user")
@@ -16,9 +26,21 @@ public class UserController {
 	}
 	
 	@GetMapping("/join")
-	public String join() {
+	public String join(@ModelAttribute("joinUserBean") UserBean joinUserBean) {
+		
 		return VIEW_PATH + "join";
 	}
+	
+	@PostMapping("/join_pro")
+	public String join_pro(@Valid @ModelAttribute("joinUserBean") UserBean joinUserBean, BindingResult result) {
+		
+		if (result.hasErrors()) {
+			return "user/join";
+		}
+		
+		return "user/join_success";
+	}
+	
 	
 	@GetMapping("/modify")
 	public String modify() {
@@ -28,6 +50,12 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout() {
 		return VIEW_PATH + "logout";
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		UserValidator validator1 = new UserValidator();
+		binder.addValidators(validator1);
 	}
 	
 
