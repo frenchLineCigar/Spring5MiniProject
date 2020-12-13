@@ -43,7 +43,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 	@Value("${db.username}")
 	private String db_username;
 	
-	@Value("${db.userpassword}")
+	@Value("${db.password}")
 	private String db_password;
 	
 	@Autowired
