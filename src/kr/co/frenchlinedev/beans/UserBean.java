@@ -22,6 +22,13 @@ public class UserBean {
 	@Pattern(regexp = "[a-zA-Z0-9]*")
 	private String user_pw2;
 	
+	private boolean userIdExist;
+	
+	// userIdExist는 최초(중복 검사 전)에 false 값을 가지도록 생성자를 만듦
+	public UserBean() {
+		this.userIdExist = false;
+	}
+	
 	public int getUser_idx() {
 		return user_idx;
 	}
@@ -51,6 +58,14 @@ public class UserBean {
 	}
 	public void setUser_pw2(String user_pw2) {
 		this.user_pw2 = user_pw2;
+	}
+
+	public boolean isUserIdExist() {
+		return userIdExist;
+	}
+
+	public void setUserIdExist(boolean userIdExist) {
+		this.userIdExist = userIdExist;
 	}
 	
 }

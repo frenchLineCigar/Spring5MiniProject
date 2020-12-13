@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.frenchlinedev.interceptor.TopMenuInterceptor;
 import kr.co.frenchlinedev.mapper.BoardMapper;
 import kr.co.frenchlinedev.mapper.TopMenuMapper;
+import kr.co.frenchlinedev.mapper.UserMapper;
 import kr.co.frenchlinedev.service.TopMenuService;
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
@@ -98,6 +99,13 @@ public class ServletAppContext implements WebMvcConfigurer {
 	@Bean
 	public MapperFactoryBean<TopMenuMapper> getTopMenuMapper(SqlSessionFactory factory) {
 		MapperFactoryBean<TopMenuMapper> factoryBean = new MapperFactoryBean<TopMenuMapper>(TopMenuMapper.class);
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+	}
+	
+	@Bean
+	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) {
+		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
 	}
