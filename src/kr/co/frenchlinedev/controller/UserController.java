@@ -76,11 +76,27 @@ public class UserController {
 		return "user/join_success";
 	}
 	
-	
 	@GetMapping("/modify")
-	public String modify() {
+	public String modify(@ModelAttribute("modifyUserBean") UserBean modifyUserBean) {
+		
+		//현재 로그인 회원 정보 조회 후 modifyUserBean에 셋팅, 정보수정 화면에서 폼에 뿌림
+		userService.getModifyUserInfo(modifyUserBean);
+		
 		return VIEW_PATH + "modify";
 	}
+	
+	@PostMapping("/modify_pro")
+	public String modify_pro(@Valid @ModelAttribute("modifyUserBean") UserBean modifyUserBean, BindingResult result) {
+				
+		if (result.hasErrors()) {
+			return "user/modify";
+		}
+		
+		userService.modifyUserInfo(modifyUserBean);
+		
+		return "user/modify_success";
+	}
+	
 
 	@GetMapping("/logout")
 	public String logout() {

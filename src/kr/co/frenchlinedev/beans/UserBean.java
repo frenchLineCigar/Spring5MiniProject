@@ -76,5 +76,14 @@ public class UserBean {
 	public void setUserLogin(boolean userLogin) {
 		this.userLogin = userLogin;
 	}
+
+	@Override
+	public String toString() {
+		return "UserBean [user_idx=" + user_idx + ", user_name=" + user_name + ", user_id=" + user_id + ", user_pw="
+				+ user_pw + ", user_pw2=" + user_pw2 + ", userIdExist=" + userIdExist + ", userLogin=" + userLogin
+				+ "]";
+	}
+	
+	
 	
 }
