@@ -15,12 +15,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.frenchlinedev.beans.UserBean;
+import kr.co.frenchlinedev.interceptor.CheckLoginInterceptor;
 import kr.co.frenchlinedev.interceptor.TopMenuInterceptor;
 import kr.co.frenchlinedev.mapper.BoardMapper;
 import kr.co.frenchlinedev.mapper.TopMenuMapper;
@@ -122,11 +124,19 @@ public class ServletAppContext implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 		
 //		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService);
-//		
 //		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
 //		reg1.addPathPatterns("/**");
 		
-		registry.addInterceptor(new TopMenuInterceptor(topMenuService, loginUserBean)).addPathPatterns("/**");
+//		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
+//		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+//		reg2.addPathPatterns("/user/modify", "/user/logout", "/board/*");
+//		reg2.excludePathPatterns("/board/main");
+		
+		registry.addInterceptor(new TopMenuInterceptor(topMenuService, loginUserBean))
+				.addPathPatterns("/**");
+		registry.addInterceptor(new CheckLoginInterceptor(loginUserBean))
+				.addPathPatterns("/user/modify", "/user/logout", "/board/*")
+				.excludePathPatterns("/board/main");
 	}
 	
 	@Bean

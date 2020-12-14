@@ -90,6 +90,11 @@ public class UserController {
 		return VIEW_PATH + "logout";
 	}
 	
+	@GetMapping("/not_login")
+	public String not_login() {
+		return VIEW_PATH + "not_login";
+	}
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		UserValidator validator1 = new UserValidator();
