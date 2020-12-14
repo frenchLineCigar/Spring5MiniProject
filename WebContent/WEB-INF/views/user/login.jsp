@@ -34,12 +34,12 @@
 					<form:form action="${root }user/login_pro" method="post" modelAttribute="tempLoginUserBean">
 						<div class="form-group">
 							<form:label path="user_id">아이디</form:label>
-							<form:input path="user_id" class="form-control"/>
+							<form:input path="user_id" class="form-control" value='abcd'/>
 							<form:errors path="user_id" style='color:red'/>
 						</div>
 						<div class="form-group">
 							<form:label path="user_pw">비밀번호</form:label>
-							<form:password path="user_pw" class="form-control"/>
+							<form:password path="user_pw" class="form-control" value='1234'/>
 							<form:errors path="user_pw" style='color:red'/>
 						</div>
 						<div class="form-group text-right">

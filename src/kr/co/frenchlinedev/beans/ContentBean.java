@@ -1,11 +1,18 @@
 package kr.co.frenchlinedev.beans;
 
+import javax.validation.constraints.NotBlank;
+
 public class ContentBean {
 	
 	private int content_idx;
-	private String content_subject;
-	private String content_text; //오라클의 long은 굉장히 장문의 문자열이다
-	private String content_file;
+	
+	@NotBlank
+	private String content_subject; //제목
+	
+	@NotBlank
+	private String content_text; //내용 (오라클의 long 타입은 굉장히 장문의 문자열이다)
+	
+	private String content_file; //첨부 이미지 이름
 	private int content_writer_idx;
 	private int content_board_idx;
 	private String content_date;
