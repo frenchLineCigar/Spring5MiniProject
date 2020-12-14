@@ -84,6 +84,9 @@ public class UserController {
 
 	@GetMapping("/logout")
 	public String logout() {
+		
+		loginUserBean.setUserLogin(false);
+		
 		return VIEW_PATH + "logout";
 	}
 	
