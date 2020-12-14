@@ -2,6 +2,7 @@ package kr.co.frenchlinedev.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.frenchlinedev.beans.UserBean;
+import kr.co.frenchlinedev.service.UserService;
 import kr.co.frenchlinedev.validator.UserValidator;
 
 @Controller
@@ -19,6 +21,9 @@ import kr.co.frenchlinedev.validator.UserValidator;
 public class UserController {
 	
 	private static final String VIEW_PATH = "user/";
+	
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -37,6 +42,8 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user/join";
 		}
+		
+		userService.addUserInfo(joinUserBean);
 		
 		return "user/join_success";
 	}
