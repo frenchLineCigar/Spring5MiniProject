@@ -22,11 +22,12 @@ public class UserBean {
 	@Pattern(regexp = "[a-zA-Z0-9]*")
 	private String user_pw2;
 	
-	private boolean userIdExist;
+	private boolean userIdExist; //가입 시 아이디 중복확인 여부를 담고 있는 변수 
+	private boolean userLogin; //로그인 여부를 담고 있는 변수
 	
-	// userIdExist는 최초(중복 검사 전)에 false 값을 가지도록 생성자를 만듦
 	public UserBean() {
-		this.userIdExist = false;
+		this.userIdExist = false; // userIdExist는 최초(중복 검사 전)에 false 값을 가지도록 초기값 셋팅
+		this.userLogin = false; //userLogin은 로그인 전에 false 값을 가지도록 초기값 셋팅
 	}
 	
 	public int getUser_idx() {
@@ -66,6 +67,14 @@ public class UserBean {
 
 	public void setUserIdExist(boolean userIdExist) {
 		this.userIdExist = userIdExist;
+	}
+
+	public boolean isUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(boolean userLogin) {
+		this.userLogin = userLogin;
 	}
 	
 }
