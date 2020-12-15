@@ -17,7 +17,7 @@ public class ContentBean {
 	private MultipartFile upload_file; //파일 데이터(첨부 이미지)
 	
 	private String content_file; //파일 이름(첨부 이미지)
-	private int content_writer_idx;
+	private int content_writer_idx; //작성자 인덱스
 	private int content_board_idx; //게시판 구분 인덱스
 	private String content_date;
 	private String content_writer_name; //작성자

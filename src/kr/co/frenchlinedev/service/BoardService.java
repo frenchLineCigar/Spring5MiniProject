@@ -47,6 +47,7 @@ public class BoardService {
 		return file_name;
 	}
 	
+	// 게시글 작성
 	public void addContentInfo(ContentBean writeContentBean) {
 		
 //		System.out.println(writeContentBean.getContent_subject());
@@ -67,14 +68,17 @@ public class BoardService {
 		boardDao.addContentInfo(writeContentBean);
 	}
 	
+	// 게시판 이름
 	public String getBoardInfoName(int board_info_idx) {
 		return boardDao.getBoardInfoName(board_info_idx);
 	}
 	
+	// 게시글 목록
 	public List<ContentBean> getContentList(int board_info_idx) {
 		return boardDao.getContentList(board_info_idx);
 	}
 	
+	// 게시글 정보
 	public ContentBean getContentInfo(int content_idx) {
 		return boardDao.getContentInfo(content_idx);
 	}

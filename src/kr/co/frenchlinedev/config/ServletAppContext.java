@@ -24,10 +24,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.frenchlinedev.beans.UserBean;
 import kr.co.frenchlinedev.interceptor.CheckLoginInterceptor;
+import kr.co.frenchlinedev.interceptor.CheckWriterInterceptor;
 import kr.co.frenchlinedev.interceptor.TopMenuInterceptor;
 import kr.co.frenchlinedev.mapper.BoardMapper;
 import kr.co.frenchlinedev.mapper.TopMenuMapper;
 import kr.co.frenchlinedev.mapper.UserMapper;
+import kr.co.frenchlinedev.service.BoardService;
 import kr.co.frenchlinedev.service.TopMenuService;
 
 // Spring MVC 프로젝트에 관련된 설정을 하는 클래스
@@ -59,6 +61,9 @@ public class ServletAppContext implements WebMvcConfigurer {
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	// Controller의 메서드가 반환하는 jsp의 이름 앞뒤에 경로와 확장자를 붙혀주도록 설정한다.
 	@Override
@@ -124,20 +129,27 @@ public class ServletAppContext implements WebMvcConfigurer {
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addInterceptors(registry);
 		
-//		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService);
-//		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
-//		reg1.addPathPatterns("/**");
-		
-//		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
-//		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
-//		reg2.addPathPatterns("/user/modify", "/user/logout", "/board/*");
-//		reg2.excludePathPatterns("/board/main");
-		
 		registry.addInterceptor(new TopMenuInterceptor(topMenuService, loginUserBean))
 				.addPathPatterns("/**");
 		registry.addInterceptor(new CheckLoginInterceptor(loginUserBean))
 				.addPathPatterns("/user/modify", "/user/logout", "/board/*")
 				.excludePathPatterns("/board/main");
+		registry.addInterceptor(new CheckWriterInterceptor(loginUserBean, boardService))
+				.addPathPatterns("/board/modify", "/board/delete");
+		
+//		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService, loginUserBean);
+//		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+//		reg1.addPathPatterns("/**");
+//		
+//		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
+//		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+//		reg2.addPathPatterns("/user/modify", "/user/logout", "/board/*");
+//		reg2.excludePathPatterns("/board/main");
+//		
+//		CheckWriterInterceptor checkWriterInterceptor = new CheckWriterInterceptor(loginUserBean, boardService);
+//		InterceptorRegistration reg3 = registry.addInterceptor(checkWriterInterceptor);
+//		reg3.addPathPatterns("/board/modify", "/board/delete");
+		
 	}
 	
 	@Bean

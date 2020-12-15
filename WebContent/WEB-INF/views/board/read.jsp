@@ -51,8 +51,11 @@
 					<div class="form-group">
 						<div class="text-right">
 							<a href="${root }board/main?board_info_idx=${board_info_idx}" class="btn btn-primary">목록보기</a>
-							<a href="${root }board/modify" class="btn btn-info">수정하기</a>
-							<a href="${root }board/delete" class="btn btn-danger">삭제하기</a>
+							<!-- 수정/삭제 버튼은 로그인한 사람과 작성한 사람이 같은 경우에만 노출 -->
+							<c:if test="${loginUserBean.user_idx == readContentBean.content_writer_idx }">
+								<a href="${root }board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-info">수정하기</a>
+								<a href="${root }board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-danger">삭제하기</a>
+							</c:if>
 						</div>
 					</div>
 				</div>
