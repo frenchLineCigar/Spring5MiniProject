@@ -42,7 +42,16 @@ public class BoardController {
 	}
 	
 	@GetMapping("/read")
-	public String read() {
+	public String read(@RequestParam("board_info_idx") int board_info_idx, 
+					   @RequestParam("content_idx") int content_idx,
+					   Model model) {
+		
+		// 목록보기 url의 파라미터에 전달할 board_info_idx를 담는다
+		model.addAttribute("board_info_idx", board_info_idx);
+		
+		ContentBean readContentBean = boardService.getContentInfo(content_idx);
+		model.addAttribute("readContentBean", readContentBean);
+		
 		return VIEW_PATH + "read";
 	}
 	
