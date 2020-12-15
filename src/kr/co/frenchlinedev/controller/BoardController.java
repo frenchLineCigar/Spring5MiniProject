@@ -1,7 +1,8 @@
-package kr.co.frenchlinedev.controller;
+ package kr.co.frenchlinedev.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,12 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.frenchlinedev.beans.ContentBean;
+import kr.co.frenchlinedev.service.BoardService;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
 	private static final String VIEW_PATH = "board/";
+	
+	@Autowired
+	private BoardService boardService;
 	
 	@GetMapping("/main")
 	public String main(@RequestParam("board_info_idx") int board_info_idx,
@@ -34,7 +39,12 @@ public class BoardController {
 	}
 	
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeContentBean") ContentBean writeContentBean) {
+	public String write(@ModelAttribute("writeContentBean") ContentBean writeContentBean,
+						@RequestParam("board_info_idx") int board_info_idx) {
+		
+		//게시판 구분 번호 셋팅
+		writeContentBean.setContent_board_idx(board_info_idx);
+		
 		return VIEW_PATH + "write";
 	}
 	
@@ -44,6 +54,8 @@ public class BoardController {
 		if (result.hasErrors()) {
 			return "board/write";
 		}
+		
+		boardService.addContentInfo(writeContentBean);
 		
 		return "board/write_success";
 	}
