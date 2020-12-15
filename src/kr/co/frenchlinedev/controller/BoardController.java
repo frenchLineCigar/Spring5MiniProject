@@ -1,5 +1,7 @@
  package kr.co.frenchlinedev.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,14 @@ public class BoardController {
 	
 		model.addAttribute("board_info_idx", board_info_idx);
 		
+		String boardInfoName = boardService.getBoardInfoName(board_info_idx);
+		model.addAttribute("boardInfoName", boardInfoName);
+		
+		List<ContentBean> contentList = boardService.getContentList(board_info_idx);
+		model.addAttribute("contentList", contentList);
+		
 		return VIEW_PATH + "main";
-	} 
+	}
 	
 	@GetMapping("/read")
 	public String read() {
