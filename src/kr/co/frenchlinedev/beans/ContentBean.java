@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ContentBean {
 	
-	private int content_idx;
+	private int content_idx; //글 번호
 	
 	@NotBlank
 	private String content_subject; //제목
@@ -18,8 +18,8 @@ public class ContentBean {
 	
 	private String content_file; //파일 이름(첨부 이미지)
 	private int content_writer_idx; //작성자 인덱스
-	private int content_board_idx; //게시판 구분 인덱스
-	private String content_date;
+	private int content_board_idx; //게시판 번호
+	private String content_date; //작성 날짜
 	private String content_writer_name; //작성자
 	
 	public int getContent_idx() {
