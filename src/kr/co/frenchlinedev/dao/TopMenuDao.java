@@ -14,6 +14,7 @@ public class TopMenuDao {
 	@Autowired
 	private TopMenuMapper topMenuMapper;
 	
+	// 게시판 전체 리스트
 	public List<BoardInfoBean> getTopMenuList() {
 		List<BoardInfoBean> topMenuList = topMenuMapper.getTopMenuList();
 		return topMenuList;

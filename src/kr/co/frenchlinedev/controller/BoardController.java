@@ -35,7 +35,7 @@ public class BoardController {
 	//글 목록
 	@GetMapping("/main")
 	public String main(@RequestParam("board_info_idx") int board_info_idx,
-					   @RequestParam(value = "page", defaultValue = "1") int page, 
+					   @RequestParam(value = "page", defaultValue = "1") int page,
 					   Model model) {
 	
 		model.addAttribute("board_info_idx", board_info_idx);
@@ -49,6 +49,8 @@ public class BoardController {
 		PageBean pageBean = boardService.getContentCnt(board_info_idx, page);
 		model.addAttribute("pageBean", pageBean);
 		
+		model.addAttribute("page", page);
+		
 		return VIEW_PATH + "main";
 	}
 	
@@ -56,6 +58,7 @@ public class BoardController {
 	@GetMapping("/read")
 	public String read(@RequestParam("board_info_idx") int board_info_idx,
 					   @RequestParam("content_idx") int content_idx,
+					   @RequestParam(value = "page", defaultValue = "1") int page,
 					   Model model) {
 		
 		/**
@@ -68,12 +71,12 @@ public class BoardController {
 		 */
 		model.addAttribute("board_info_idx", board_info_idx);
 		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("page", page);
 		
 		// 수정/삭제 버튼은 로그인한 사람과 작성한 사람이 같은 경우에만 노출
-		model.addAttribute("loginUserBean", loginUserBean);
-		
 		ContentBean readContentBean = boardService.getContentInfo(content_idx);
 		model.addAttribute("readContentBean", readContentBean);
+		model.addAttribute("loginUserBean", loginUserBean);
 		
 		return VIEW_PATH + "read";
 	}
@@ -81,7 +84,8 @@ public class BoardController {
 	//글 쓰기
 	@GetMapping("/write")
 	public String write(@ModelAttribute("writeContentBean") ContentBean writeContentBean,
-						@RequestParam("board_info_idx") int board_info_idx) {
+						@RequestParam("board_info_idx") int board_info_idx,
+						Model model) {
 		
 		//게시판 구분 번호 셋팅
 		writeContentBean.setContent_board_idx(board_info_idx);
@@ -106,8 +110,13 @@ public class BoardController {
 	@GetMapping("/modify")
 	public String modify(@RequestParam("board_info_idx") int board_info_idx,
 						 @RequestParam("content_idx") int content_idx,
+						 @RequestParam("page") int page,
 						 @ModelAttribute("modifyContentBean") ContentBean modifyContentBean,
 						 Model model) {
+		
+		model.addAttribute("board_info_idx", board_info_idx);
+		model.addAttribute("content_idx", content_idx);
+		model.addAttribute("page", page);
 		
 		//해당 게시글 조회
 		ContentBean tempContentBean = boardService.getContentInfo(content_idx);
@@ -120,19 +129,19 @@ public class BoardController {
 		modifyContentBean.setContent_board_idx(board_info_idx);
 		modifyContentBean.setContent_idx(content_idx);
 		
-//		model.addAttribute("board_info_idx", board_info_idx);
-//		model.addAttribute("content_idx", content_idx);
-		
 		return VIEW_PATH + "modify";
 	}
 	
 	//글 수정 등록
 	@PostMapping("/modify_pro")
-	public String modify_pro(Model model, @Valid @ModelAttribute("modifyContentBean") ContentBean modifyContentBean, 
-							 BindingResult result) {
+	public String modify_pro(@Valid @ModelAttribute("modifyContentBean") ContentBean modifyContentBean, 
+							 BindingResult result,
+							 @RequestParam("page") int page,
+							 Model model) {
+		
+		model.addAttribute("page", page);
 		
 		if (result.hasErrors()) {
-			System.out.println(model.toString());
 			return "board/modify";
 		}
 		
