@@ -14,6 +14,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
+<script>
+    function deleteContent() {
+        var confirm_test = confirm("삭제 하시겠습니까?");
+ 
+        if ( confirm_test == true ) {
+            location.href = '${root }board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}'
+        } else if ( confirm_test == false ) {
+        	
+        }
+    }
+</script>
 <body>
 
 <c:import url="/WEB-INF/views/include/top_menu.jsp"/>
@@ -54,7 +65,8 @@
 							<!-- 수정/삭제 버튼은 로그인한 사람과 작성한 사람이 같은 경우에만 노출 -->
 							<c:if test="${loginUserBean.user_idx == readContentBean.content_writer_idx }">
 								<a href="${root }board/modify?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-info">수정하기</a>
-								<a href="${root }board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-danger">삭제하기</a>
+								<a href="javascript:void(0)" onclick="deleteContent()" class="btn btn-danger">삭제하기</a>
+								<%-- <a href="${root }board/delete?board_info_idx=${board_info_idx}&content_idx=${content_idx}" class="btn btn-danger">삭제하기</a> --%>
 							</c:if>
 						</div>
 					</div>

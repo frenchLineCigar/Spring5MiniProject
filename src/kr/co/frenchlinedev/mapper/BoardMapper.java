@@ -2,10 +2,12 @@
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import kr.co.frenchlinedev.beans.ContentBean;
 
@@ -29,7 +31,12 @@ public interface BoardMapper {
 			"where a1.content_writer_idx = a2.user_idx " +
 			"and a1.content_board_idx = #{board_info_idx } " +
 			"order by a1.content_idx desc")
-	List<ContentBean> getContentList(int board_info_idx);
+	List<ContentBean> getContentList(int board_info_idx, RowBounds rowBounds);
+	/**
+	 * RowBounds 객체 생성 시 2개의 값을 가져옴
+	 * 어디서(인덱스 번호) 부터, 몇 개를 가져와라
+	 * RowBounds는 인덱스 번호 0부터 시작(zero-based index)
+	 */
 	
 	@Select("select a2.user_name as content_writer_name, " + 
 			"    to_char(a1.content_date, 'YYYY-MM-DD') as content_date, " + 
@@ -44,4 +51,12 @@ public interface BoardMapper {
 			"content_file = #{content_file, jdbcType=VARCHAR} " +
 			"where content_idx = #{content_idx}")
 	void modifyContentInfo(ContentBean modifyContentBean);
+	
+	@Delete("delete from content_table where content_idx = #{content_idx}")
+	void deleteContentInfo(int content_idx);
+	
+	//해당 게시판 전체 글 개수
+	@Select("select count(*) from content_table where content_board_idx = #{content_board_idx}")
+	int getContentCnt(int content_board_idx);
+	
 }

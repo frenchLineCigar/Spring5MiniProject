@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.frenchlinedev.beans.ContentBean;
+import kr.co.frenchlinedev.beans.PageBean;
 import kr.co.frenchlinedev.beans.UserBean;
 import kr.co.frenchlinedev.service.BoardService;
 
@@ -34,15 +35,19 @@ public class BoardController {
 	//글 목록
 	@GetMapping("/main")
 	public String main(@RequestParam("board_info_idx") int board_info_idx,
-						Model model) {
+					   @RequestParam(value = "page", defaultValue = "1") int page, 
+					   Model model) {
 	
 		model.addAttribute("board_info_idx", board_info_idx);
 		
 		String boardInfoName = boardService.getBoardInfoName(board_info_idx);
 		model.addAttribute("boardInfoName", boardInfoName);
 		
-		List<ContentBean> contentList = boardService.getContentList(board_info_idx);
+		List<ContentBean> contentList = boardService.getContentList(board_info_idx, page);
 		model.addAttribute("contentList", contentList);
+		
+		PageBean pageBean = boardService.getContentCnt(board_info_idx, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return VIEW_PATH + "main";
 	}
@@ -139,7 +144,14 @@ public class BoardController {
 	
 	//글 삭제
 	@GetMapping("/delete")
-	public String delete() {
+	public String delete(@RequestParam("board_info_idx") int board_info_idx,
+						 @RequestParam("content_idx") int content_idx,
+						 Model model) {
+		
+		boardService.deleteContentInfo(content_idx);
+		
+		model.addAttribute("board_info_idx", board_info_idx);
+		
 		return VIEW_PATH + "delete";
 	}
 	
